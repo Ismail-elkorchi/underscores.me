@@ -1,34 +1,40 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The template for displaying all single posts
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
  * @package Underscores.me
- * @since Underscores.me 1.0
  */
 
-get_header(); ?>
+get_header();
+?>
 
-		<div id="primary" class="site-content">
-			<div id="content" role="main">
+	<main id="primary" class="site-main">
 
-			<?php while ( have_posts() ) : the_post(); ?>
+		<?php
+		while ( have_posts() ) :
+			the_post();
 
-				<?php underscoresme_content_nav( 'nav-above' ); ?>
+			get_template_part( 'template-parts/content', get_post_type() );
 
-				<?php get_template_part( 'content', 'single' ); ?>
+			the_post_navigation(
+				array(
+					'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'underscoresme' ) . '</span> <span class="nav-title">%title</span>',
+					'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'underscoresme' ) . '</span> <span class="nav-title">%title</span>',
+				)
+			);
 
-				<?php underscoresme_content_nav( 'nav-below' ); ?>
+			// If comments are open or we have at least one comment, load up the comment template.
+			if ( comments_open() || get_comments_number() ) :
+				comments_template();
+			endif;
 
-				<?php
-					// If comments are open or we have at least one comment, load up the comment template
-					if ( comments_open() || '0' != get_comments_number() )
-						comments_template( '', true );
-				?>
+		endwhile; // End of the loop.
+		?>
 
-			<?php endwhile; // end of the loop. ?>
+	</main><!-- #main -->
 
-			</div><!-- #content -->
-		</div><!-- #primary .site-content -->
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+get_sidebar();
+get_footer();

@@ -8,11 +8,11 @@
 
 get_header(); ?>	
 
-		<div id="primary" class="site-content">
+		<main id="primary" class="site-main">
 			
-			<section id="generator" role="main">
+			<section id="generator">
 				<div class="wrap">
-					<h1>Create your Underscores based theme</h1>
+					<h2>Create your Underscores based theme</h2>
 					<?php do_action( 'underscoresme_print_form' ); ?>
 				</div><!-- .wrap -->
 			</section><!-- #generator -->
@@ -20,7 +20,7 @@ get_header(); ?>
 			<section id="about">
 				<div class="wrap">
 					<div id="intro">
-						<h1>What is Underscores?</h1>
+						<h2>What is Underscores?</h2>
 						<p>Hi. I'm a starter theme called <em>_s</em>, or <em>underscores</em>, if you like. I'm a theme meant for hacking so don't use me as a Parent Theme. Instead try turning me into the next, most awesome, WordPress theme out there. That's what I'm here for.</p>
 						<p>My ultra-minimal CSS might make me look like theme tartare but that means less stuff to get in your way when you're designing your awesome theme. Here are some of the other more interesting things you'll find here ...</p>
 						<p>Learn more about me in "<a href="http://themeshaper.com/2012/02/13/introducing-the-underscores-theme/">A 1000-Hour Head Start: Introducing The _s Theme</a>" on <a href="http://themeshaper.com/">ThemeShaper</a>.</p>
@@ -41,7 +41,7 @@ get_header(); ?>
 			
 			<section id="contribute">
 				<div class="wrap">
-					<h1>Underscores is brought to you by these fine folks</h1>
+					<h2>Underscores is brought to you by these fine folks</h2>
 					<div id="github">
 						<a href="https://github.com/automattic/_s" title="Go to the Underscores page on github to contribute to the project">Underscores on github</a>
 					</div><!-- #github -->
@@ -58,7 +58,7 @@ get_header(); ?>
 				</div><!-- .wrap -->
 			</section><!-- #contribute -->
 
-		</div><!-- #primary .site-content -->
+		</main><!-- #primary .site-content -->
 
 
 

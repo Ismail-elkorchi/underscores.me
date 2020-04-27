@@ -1,49 +1,57 @@
 <?php
 /**
- * The main template file.
+ * The main template file
  *
  * This is the most generic template file in a WordPress theme
  * and one of the two required files for a theme (the other being style.css).
  * It is used to display a page when nothing more specific matches a query.
  * E.g., it puts together the home page when no home.php file exists.
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package Underscores.me
- * @since Underscores.me 1.0
  */
 
-get_header(); ?>
+get_header();
+?>
 
-		<div id="primary" class="site-content">
-			<div id="content" role="main">
+	<main id="primary" class="site-main">
 
-			<?php if ( have_posts() ) : ?>
+		<?php
+		if ( have_posts() ) :
 
-				<?php underscoresme_content_nav( 'nav-above' ); ?>
+			if ( is_home() && ! is_front_page() ) :
+				?>
+				<header>
+					<h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
+				</header>
+				<?php
+			endif;
 
-				<?php /* Start the Loop */ ?>
-				<?php while ( have_posts() ) : the_post(); ?>
+			/* Start the Loop */
+			while ( have_posts() ) :
+				the_post();
 
-					<?php
-						/* Include the Post-Format-specific template for the content.
-						 * If you want to overload this in a child theme then include a file
-						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-						 */
-						get_template_part( 'content', get_post_format() );
-					?>
+				/*
+				 * Include the Post-Type-specific template for the content.
+				 * If you want to override this in a child theme, then include a file
+				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
+				 */
+				get_template_part( 'template-parts/content', get_post_type() );
 
-				<?php endwhile; ?>
+			endwhile;
 
-				<?php underscoresme_content_nav( 'nav-below' ); ?>
+			the_posts_navigation();
 
-			<?php elseif ( current_user_can( 'edit_posts' ) ) : ?>
+		else :
 
-				<?php get_template_part( 'no-results', 'index' ); ?>
+			get_template_part( 'template-parts/content', 'none' );
 
-			<?php endif; ?>
+		endif;
+		?>
 
-			</div><!-- #content -->
-		</div><!-- #primary .site-content -->
+	</main><!-- #main -->
 
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+get_sidebar();
+get_footer();
