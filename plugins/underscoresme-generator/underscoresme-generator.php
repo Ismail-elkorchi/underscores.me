@@ -37,6 +37,7 @@ class Underscores_Generator_Plugin {
 					<section class="generator-form-primary">
 						<label for="underscoresme-name">Theme Name</label>
 						<input type="text" id="underscoresme-name" name="underscoresme_name" placeholder="Theme Name" />
+						<a href="#" class="generator-form-options-toggle">Advanced Options</a>
 					</section><!-- .generator-form-primary -->
 
 					<section class="generator-form-secondary">
@@ -57,6 +58,7 @@ class Underscores_Generator_Plugin {
 
 						<input type="checkbox" id="underscoresme-sass" name="underscoresme_sass" value="1">
 						<label for="underscoresme-sass">_sassify!</label>
+						<a href="#" class="generator-form-options-toggle">Simple Options</a>
 					</section><!-- .generator-form-secondary -->
 				</section><!-- .generator-form-inputs -->
 

@@ -59,7 +59,7 @@ function underscoresme_scripts() {
 	global $post;
 
 	wp_enqueue_style( 'style', add_query_arg( 'v', 20140811, get_stylesheet_uri() ) );
-	wp_enqueue_script( 'underscores-scripts', get_template_directory_uri() . '/js/underscores-scripts.js', array( 'jquery' ), '20120813' );
+	wp_enqueue_script( 'underscores-scripts', get_template_directory_uri() . '/js/underscores-scripts.js', array(), '20120813' );
 }
 add_action( 'wp_enqueue_scripts', 'underscoresme_scripts' );
 
