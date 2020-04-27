@@ -102,21 +102,10 @@ select,
 textarea {
 	color: #434B5C;
 	color: rgba(67,75,92,0.8);
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 16px;
 	font-size: 1.6rem;
 	line-height: 1.5;
-}
-
-.wf-active body,
-.wf-active button,
-.wf-active input,
-.wf-active select,
-.wf-active textarea {
-	font-family: 'stratum-1-web', sans-serif;
-	font-weight: 400;
-	font-size: 18px;
-	font-size: 1.8rem;
 }
 
 /* Headings */
