@@ -37,10 +37,6 @@
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico" />
 
-<?php //TYPEKIT CODE - Konstantin, can you please move this to the enqueue scripts section in the functions.php file? ?>
-<script type="text/javascript" src="//use.typekit.net/qcr7ewy.js"></script>
-<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
 <?php wp_head(); ?>
 </head>
 
