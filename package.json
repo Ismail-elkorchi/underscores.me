@@ -1,0 +1,26 @@
+{
+  "name": "underscoresme",
+  "version": "1.0.0",
+  "description": "Theme for the marketing site for the _s theme.",
+  "author": "Automattic Theme Team",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "WordPress",
+    "Theme"
+  ],
+  "homepage": "https://github.com/Ismail-elkorchi/underscores.ismailelkorchi.com#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ismail-elkorchi/underscores.ismailelkorchi.com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ismail-elkorchi/underscores.ismailelkorchi.com/issues"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^8.0.1"
+  },
+  "scripts": {
+    "lint:css": "wp-scripts lint-style 'style.css'",
+    "lint:js": "wp-scripts lint-js 'js/*.js'"
+  }
+}
