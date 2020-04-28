@@ -24,9 +24,6 @@ cache:
 language:
   - php
 
-php:
-  - 7.3
-
 jobs:
   fast_finish: true
   include:
