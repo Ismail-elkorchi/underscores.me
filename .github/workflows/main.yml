@@ -23,7 +23,7 @@ jobs:
     # Runs a set of commands using the runners shell
     - name: Deploy
       env:
-        dest: 'ismailel@192.254.217.77:/underscores.ismailelkorchi.com/wp-content/themes/underscores.me'
+        dest: 'ismailel@192.254.217.77:underscores.ismailelkorchi.com/wp-content/themes/underscores.me'
       run: |
         echo "${{secrets.DEPLOY_KEY}}" > deploy_key
         chmod 600 ./deploy_key
