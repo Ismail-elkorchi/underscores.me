@@ -11,6 +11,13 @@
 class Underscoresme_Generator {
 
 	/**
+	 * Hold the generated theme data.
+	 * 
+	 * @var array
+	 */
+	protected $theme;
+
+	/**
 	 * Fired when file is loaded.
 	 */
 	public function __construct() {
@@ -176,8 +183,6 @@ class Underscoresme_Generator {
 
 		$zip->close();
 
-		$this->do_tracking();
-
 		header( 'Content-type: application/zip' );
 		header( sprintf( 'Content-Disposition: attachment; filename="%s.zip"', $this->theme['slug'] ) );
 		readfile( $zip_filename ); // phpcs:ignore
@@ -191,7 +196,7 @@ class Underscoresme_Generator {
 	 * @param mixed $contents The content of the file being looped through.
 	 * @param mixed $filename The name of the file being looped through.
 	 */
-	private function do_replacements( $contents, $filename ) {
+	public function do_replacements( $contents, $filename ) {
 
 		// Replace only text files, skip png's and other stuff.
 		$valid_extensions       = array( 'php', 'css', 'scss', 'js', 'txt' );
