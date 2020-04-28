@@ -123,7 +123,7 @@ add_action( 'after_setup_theme', 'underscoresme_content_width', 0 );
  */
 function underscoresme_scripts() {
 	wp_enqueue_style( 'underscoresme-style', get_stylesheet_uri(), array(), UNDERSCORESME_VERSION );
-	wp_enqueue_script( 'underscores-scripts', get_template_directory_uri() . '/js/underscores-scripts.js', array(), UNDERSCORESME_VERSION );
+	wp_enqueue_script( 'underscores-scripts', get_template_directory_uri() . '/js/underscores-scripts.js', array(), UNDERSCORESME_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -137,17 +137,20 @@ add_action( 'wp_enqueue_scripts', 'underscoresme_scripts' );
 function underscoresme_get_contributors() {
 
 	$transient_key = 'underscoresme_contributors';
-	$contributors = get_transient( $transient_key );
-	if ( false !== $contributors )
+	$contributors  = get_transient( $transient_key );
+	if ( false !== $contributors ) {
 		return $contributors;
+	}
 
 	$response = wp_remote_get( 'https://api.github.com/repos/Automattic/_s/contributors?per_page=100' );
-	if ( is_wp_error( $response ) )
+	if ( is_wp_error( $response ) ) {
 		return array();
+	}
 
 	$contributors = json_decode( wp_remote_retrieve_body( $response ) );
-	if ( ! is_array( $contributors ) )
+	if ( ! is_array( $contributors ) ) {
 		return array();
+	}
 
 	set_transient( $transient_key, $contributors, HOUR_IN_SECONDS );
 
@@ -162,4 +165,4 @@ require get_template_directory() . '/inc/template-tags.php';
 /**
  * Underscores.me generator pseudo-plugin
  */
-require get_template_directory() . '/plugins/underscoresme-generator/underscoresme-generator.php';
+require get_template_directory() . '/plugins/underscoresme-generator/class-underscoresme-generator.php';

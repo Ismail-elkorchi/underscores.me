@@ -1,17 +1,26 @@
 <?php
 /**
- * Plugin Name: Underscores.me Generator
- * Description: Generates themes based on the _s theme.
+ * Underscores.me Generator
+ *
+ * @package Underscores.me
  */
 
-class Underscores_Generator_Plugin {
+/**
+ * Class used for Generating themes based on the _s theme.
+ */
+class Underscoresme_Generator {
 
+	/**
+	 * Hold the generated theme data.
+	 * 
+	 * @var array
+	 */
 	protected $theme;
 
 	/**
 	 * Fired when file is loaded.
 	 */
-	function __construct() {
+	public function __construct() {
 		// All the black magic is happening in these actions.
 		add_action( 'init', array( $this, 'init' ) );
 		add_filter( 'underscoresme_generator_file_contents', array( $this, 'do_replacements' ), 10, 2 );
@@ -23,7 +32,7 @@ class Underscores_Generator_Plugin {
 	/**
 	 * Renders the generator form
 	 */
-	function underscoresme_print_form() {
+	public function underscoresme_print_form() {
 		?>
 		<div id="generator-form" class="generator-form-skinny">
 			<form method="POST">
@@ -74,12 +83,14 @@ class Underscores_Generator_Plugin {
 	/**
 	 * Creates zip files and does a bunch of other stuff.
 	 */
-	function init() {
-		if ( ! isset( $_REQUEST['underscoresme_generate'], $_REQUEST['underscoresme_name'] ) )
+	public function init() {
+		if ( ! isset( $_REQUEST['underscoresme_generate'], $_REQUEST['underscoresme_name'] ) ) {
 			return;
+		}
 
-		if ( empty( $_REQUEST['underscoresme_name'] ) )
+		if ( empty( $_REQUEST['underscoresme_name'] ) ) {
 			wp_die( 'Please enter a theme name. Please go back and try again.' );
+		}
 
 		$this->theme = array(
 			'name'        => 'Theme Name',
@@ -119,13 +130,13 @@ class Underscores_Generator_Plugin {
 			$this->theme['author_uri'] = trim( $_REQUEST['underscoresme_author_uri'] );
 		}
 
-		$zip = new ZipArchive;
-		$zip_filename = sprintf( '/tmp/underscoresme-%s.zip', md5( print_r( $this->theme, true ) ) );
-		$res = $zip->open( $zip_filename, ZipArchive::CREATE && ZipArchive::OVERWRITE );
+		$zip          = new ZipArchive();
+		$zip_filename = sprintf( '/tmp/underscoresme-%s.zip', md5( print_r( $this->theme, true ) ) ); // phpcs:ignore
+		$res          = $zip->open( $zip_filename, ZipArchive::CREATE && ZipArchive::OVERWRITE );
 
 		$prototype_dir = dirname( __FILE__ ) . '/prototype/';
 
-		$exclude_files = array( '.travis.yml', 'codesniffer.ruleset.xml', '.jscsrc', '.jshintignore', 'CONTRIBUTING.md', '.git', '.svn', '.DS_Store', '.gitignore', '.', '..' );
+		$exclude_files       = array( '.travis.yml', 'codesniffer.ruleset.xml', '.jscsrc', '.jshintignore', 'CONTRIBUTING.md', '.git', '.svn', '.DS_Store', '.gitignore', '.', '..' );
 		$exclude_directories = array( '.git', '.svn', '.github', '.', '..' );
 
 		if ( ! $this->theme['sass'] ) {
@@ -149,46 +160,52 @@ class Underscores_Generator_Plugin {
 		$iterator = new RecursiveDirectoryIterator( $prototype_dir );
 		foreach ( new RecursiveIteratorIterator( $iterator ) as $filename ) {
 
-			if ( in_array( basename( $filename ), $exclude_files ) )
+			if ( in_array( basename( $filename ), $exclude_files, true ) ) {
 				continue;
+			}
 
-			foreach ( $exclude_directories as $directory )
-				if ( strstr( $filename, "/{$directory}/" ) )
-					continue 2; // continue the parent foreach loop
+			foreach ( $exclude_directories as $directory ) {
+				if ( strstr( $filename, "/{$directory}/" ) ) {
+					continue 2; // continue the parent foreach loop.
+				}
+			}
 
 			$local_filename = str_replace( trailingslashit( $prototype_dir ), '', $filename );
 
-			if ( 'languages/_s.pot' == $local_filename )
+			if ( 'languages/_s.pot' === $local_filename ) {
 				$local_filename = sprintf( 'languages/%s.pot', $this->theme['slug'] );
+			}
 
-			$contents = file_get_contents( $filename );
+			$contents = file_get_contents( $filename ); // phpcs:ignore
 			$contents = apply_filters( 'underscoresme_generator_file_contents', $contents, $local_filename );
 			$zip->addFromString( trailingslashit( $this->theme['slug'] ) . $local_filename, $contents );
 		}
 
 		$zip->close();
 
-		$this->do_tracking();
-
 		header( 'Content-type: application/zip' );
 		header( sprintf( 'Content-Disposition: attachment; filename="%s.zip"', $this->theme['slug'] ) );
-		readfile( $zip_filename );
-		unlink( $zip_filename );/**/
+		readfile( $zip_filename ); // phpcs:ignore
+		unlink( $zip_filename );
 		die();
 	}
 
 	/**
 	 * Runs when looping through files contents, does the replacements fun stuff.
+	 * 
+	 * @param mixed $contents The content of the file being looped through.
+	 * @param mixed $filename The name of the file being looped through.
 	 */
-	function do_replacements( $contents, $filename ) {
+	public function do_replacements( $contents, $filename ) {
 
 		// Replace only text files, skip png's and other stuff.
-		$valid_extensions = array( 'php', 'css', 'scss', 'js', 'txt' );
+		$valid_extensions       = array( 'php', 'css', 'scss', 'js', 'txt' );
 		$valid_extensions_regex = implode( '|', $valid_extensions );
-		if ( ! preg_match( "/\.({$valid_extensions_regex})$/", $filename ) )
+		if ( ! preg_match( "/\.({$valid_extensions_regex})$/", $filename ) ) {
 			return $contents;
+		}
 
-		// Special treatment for style.css
+		// Special treatment for style.css.
 		if ( in_array( $filename, array( 'style.css', 'sass/style.scss' ), true ) ) {
 			$theme_headers = array(
 				'Theme Name'  => $this->theme['name'],
@@ -208,12 +225,12 @@ class Underscores_Generator_Plugin {
 			return $contents;
 		}
 
-		// Special treatment for functions.php
-		if ( 'functions.php' == $filename ) {
+		// Special treatment for functions.php.
+		if ( 'functions.php' === $filename ) {
 
 			if ( ! $this->theme['wpcom'] ) {
 				// The following hack will remove the WordPress.com comment and include in functions.php.
-				$find = 'WordPress.com-specific functions';
+				$find     = 'WordPress.com-specific functions';
 				$contents = preg_replace( '#/\*\*\n\s+\*\s+' . preg_quote( $find ) . '#i', '@wpcom_start', $contents );
 				$contents = preg_replace( '#/inc/wpcom\.php\';#i', '@wpcom_end', $contents );
 				$contents = preg_replace( '#@wpcom_start(.+)@wpcom_end\n?(\n\s)?#ims', '', $contents );
@@ -221,24 +238,23 @@ class Underscores_Generator_Plugin {
 
 			if ( ! $this->theme['woocommerce'] ) {
 				// The following hack will remove the WooCommerce comment and include in functions.php.
-				$find = 'Load WooCommerce compatibility file.';
+				$find     = 'Load WooCommerce compatibility file.';
 				$contents = preg_replace( '#/\*\*\n\s+\*\s+' . preg_quote( $find ) . '#i', '@wpcom_start', $contents );
 				$contents = preg_replace( '#/inc/woocommerce\.php\';\n\}#i', '@wpcom_end', $contents );
 				$contents = preg_replace( '#@wpcom_start(.+)@wpcom_end\n?(\n\s)?#ims', '', $contents );
 			}
 		}
 
-		// Special treatment for footer.php
-		if ( 'footer.php' == $filename ) {
-			// <?php printf( __( 'Theme: %1$s by %2$s.', '_s' ), '_s', '<a href="https://automattic.com/">Automattic</a>' );
+		// Special treatment for footer.php.
+		if ( 'footer.php' === $filename ) {
 			$contents = str_replace( 'https://automattic.com/', esc_url( $this->theme['author_uri'] ), $contents );
 			$contents = str_replace( 'Automattic', $this->theme['author'], $contents );
 			$contents = preg_replace( "#printf\\((\\s?__\\(\\s?'Theme:[^,]+,[^,]+,)([^,]+),#", sprintf( "printf(\\1 '%s',", esc_attr( $this->theme['name'] ) ), $contents );
 		}
 
-		// Special treatment for readme.txt
-		if ( 'readme.txt' == $filename ) {
-			$contents = preg_replace('/(?<=Description ==) *.*?(.*(?=(== Installation)))/s', "\n\n" . $this->theme['description'] . "\n\n", $contents );
+		// Special treatment for readme.txt.
+		if ( 'readme.txt' === $filename ) {
+			$contents = preg_replace( '/(?<=Description ==) *.*?(.*(?=(== Installation)))/s', "\n\n" . $this->theme['description'] . "\n\n", $contents );
 			$contents = str_replace( '_s, or underscores', $this->theme['name'], $contents );
 		}
 
@@ -246,42 +262,12 @@ class Underscores_Generator_Plugin {
 		$slug = str_replace( '-', '_', $this->theme['slug'] );
 
 		// Regular treatment for all other files.
-		$contents = str_replace( "@package _s", sprintf( "@package %s", str_replace( ' ', '_', $this->theme['name'] ) ), $contents ); // Package declaration.
-		$contents = str_replace( "_s-", sprintf( "%s-",  $this->theme['slug'] ), $contents ); // Script/style handles.
-		$contents = str_replace( "'_s'", sprintf( "'%s'",  $this->theme['slug'] ), $contents ); // Textdomains.
-		$contents = str_replace( "_s_", $slug . '_', $contents ); // Function names.
+		$contents = str_replace( '@package _s', sprintf( '@package %s', str_replace( ' ', '_', $this->theme['name'] ) ), $contents ); // Package declaration.
+		$contents = str_replace( '_s-', sprintf( '%s-', $this->theme['slug'] ), $contents ); // Script/style handles.
+		$contents = str_replace( "'_s'", sprintf( "'%s'", $this->theme['slug'] ), $contents ); // Textdomains.
+		$contents = str_replace( '_s_', $slug . '_', $contents ); // Function names.
 		$contents = preg_replace( '/\b_s\b/', $this->theme['name'], $contents );
 		return $contents;
 	}
-
-	function do_tracking() {
-
-		// Track downloads.
-		$user_agent = 'regular';
-		if ( '_sh' == $_SERVER['HTTP_USER_AGENT'] ) {
-			$user_agent = '_sh';
-		}
-
-		// Track features.
-		$features   = array();
-		if ( $this->theme['sass'] ) {
-			$features[] = 'sass';
-		}
-		if ( $this->theme['woocommerce'] ) {
-			$features[] = 'woocommerce';
-		}
-		if ( $this->theme['wpcom'] ) {
-			$features[] = 'wpcom';
-		}
-		if ( empty( $features ) ) {
-			$features[] = 'none';
-		}
-
-		wp_remote_get( add_query_arg( array(
-			'v'                         => 'wpcom-no-pv',
-			'x_underscoresme-downloads' => $user_agent,
-			'x_underscoresme-features'  => implode( ',', $features ),
-		), 'http://stats.wordpress.com/g.gif' ), array( 'blocking' => false ) );
-	}
 }
-new Underscores_Generator_Plugin;
+new Underscoresme_Generator();
