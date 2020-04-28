@@ -47,7 +47,14 @@
 
 	<rule ref="WordPress"/>
 	<rule ref="WPThemeReview"/>
-
+	<rule ref="WordPress">
+		<exclude name="WordPress.Security.NonceVerification.Recommended"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
+		<exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash"/>
+		<exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized"/>
+		<exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/>
+		<exclude name="WordPress.PHP.PregQuoteDelimiter.Missing"/>
+	</rule>
 	<!--
 	#############################################################################
 	SNIFF SPECIFIC CONFIGURATION

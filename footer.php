@@ -16,12 +16,17 @@
 			An <a href="http://automattic.com/" id="automattic-credit-logo">Automattic</a> 
 			<?php
 				$words = array( 'Production', 'Joint', 'Medley', 'Experiment', 'Ruckus', 'Invention', 'Creation', 'Thingamajig', 'Opus', 'Brainchild', 'Contraption' );
-				echo $words[ mt_rand( 0, count( $words) -1 ) ];
+				echo $words[ wp_rand( 0, count( $words ) - 1 ) ];
 			?>
 		</div><!-- .automattic-credit -->
 		<span class="sep"> | </span>
 		<div class="site-info">
-			<a href="http://wordpress.org/" title="<?php esc_attr_e( 'A Semantic Personal Publishing Platform', 'underscoresme' ); ?>" rel="generator"><?php printf( __( 'Proudly powered by %s', 'underscoresme' ), 'WordPress' ); ?></a>
+			<a href="http://wordpress.org/" title="<?php esc_attr_e( 'A Semantic Personal Publishing Platform', 'underscoresme' ); ?>" rel="generator">
+				<?php
+					/* translators: %s: WordPress. */
+					printf( __( 'Proudly powered by %s', 'underscoresme' ), 'WordPress' );
+				?>
+			</a>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->

@@ -9,7 +9,7 @@
 get_header(); ?>	
 
 		<main id="primary" class="site-main">
-			
+
 			<section id="generator">
 				<div class="wrap">
 					<h2>Create your Underscores based theme</h2>
@@ -38,7 +38,7 @@ get_header(); ?>
 					</ul><!-- #features -->
 				</div><!-- .wrap -->
 			</section><!-- #about -->
-			
+
 			<section id="contribute">
 				<div class="wrap">
 					<h2>Underscores is brought to you by these fine folks</h2>
@@ -48,11 +48,11 @@ get_header(); ?>
 					<ul id="team">
 						<?php foreach ( underscoresme_get_contributors() as $contributor ) : ?>
 							<?php
-								$title = sprintf( '@%s with %d %s', $contributor->login, $contributor->contributions, _n( 'contribution', 'contributions', $contributor->contributions ) );
-								$url = sprintf( 'http://github.com/%s', $contributor->login );
+								$alt        = sprintf( '@%s with %d %s', $contributor->login, $contributor->contributions, _n( 'contribution', 'contributions', $contributor->contributions, 'underscoresme' ) );
+								$url        = sprintf( 'http://github.com/%s', $contributor->login );
 								$avatar_url = add_query_arg( 's', 200, $contributor->avatar_url );
 							?>
-							<li><a title="<?php echo esc_attr( $title ); ?>" href="<?php echo esc_url( $url ); ?>"><img class="avatar" loading="lazy" src="<?php echo esc_url( $avatar_url ); ?>" /></a></li>
+							<li><a alt="<?php echo esc_attr( $alt ); ?>" href="<?php echo esc_url( $url ); ?>"><img class="avatar" loading="lazy" src="<?php echo esc_url( $avatar_url ); ?>" /></a></li>
 						<?php endforeach; ?>
 					</ul><!-- #team -->
 				</div><!-- .wrap -->
