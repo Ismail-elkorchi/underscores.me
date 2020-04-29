@@ -48,11 +48,11 @@ get_header(); ?>
 					<ul id="team">
 						<?php foreach ( underscoresme_get_contributors() as $contributor ) : ?>
 							<?php
-								$alt        = sprintf( '@%s with %d %s', $contributor->login, $contributor->contributions, _n( 'contribution', 'contributions', $contributor->contributions, 'underscoresme' ) );
-								$url        = sprintf( 'http://github.com/%s', $contributor->login );
-								$avatar_url = add_query_arg( 's', 200, $contributor->avatar_url );
+								$avatar_title = sprintf( '@%s with %d %s', $contributor->login, $contributor->contributions, _n( 'contribution', 'contributions', $contributor->contributions, 'underscoresme' ) );
+								$url          = sprintf( 'http://github.com/%s', $contributor->login );
+								$avatar_url   = add_query_arg( 's', 200, $contributor->avatar_url );
 							?>
-							<li><a alt="<?php echo esc_attr( $alt ); ?>" href="<?php echo esc_url( $url ); ?>"><img class="avatar" loading="lazy" width="140" height="140" src="<?php echo esc_url( $avatar_url ); ?>" /></a></li>
+							<li><a title="<?php echo esc_attr( $avatar_title ); ?>" alt="<?php echo esc_attr( $contributor->login ); ?>" href="<?php echo esc_url( $url ); ?>"><img class="avatar" loading="lazy" width="140" height="140" src="<?php echo esc_url( $avatar_url ); ?>" /></a></li>
 						<?php endforeach; ?>
 					</ul><!-- #team -->
 				</div><!-- .wrap -->
