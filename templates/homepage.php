@@ -52,7 +52,7 @@ get_header(); ?>
 								$url        = sprintf( 'http://github.com/%s', $contributor->login );
 								$avatar_url = add_query_arg( 's', 200, $contributor->avatar_url );
 							?>
-							<li><a alt="<?php echo esc_attr( $alt ); ?>" href="<?php echo esc_url( $url ); ?>"><img class="avatar" loading="lazy" src="<?php echo esc_url( $avatar_url ); ?>" /></a></li>
+							<li><a alt="<?php echo esc_attr( $alt ); ?>" href="<?php echo esc_url( $url ); ?>"><img class="avatar" loading="lazy" width="140" height="140" src="<?php echo esc_url( $avatar_url ); ?>" /></a></li>
 						<?php endforeach; ?>
 					</ul><!-- #team -->
 				</div><!-- .wrap -->
