@@ -30,4 +30,5 @@ jobs:
           --exclude /deploy_key \
           --exclude /.git/ \
           --exclude /.github/ \
+          --exclude /plugins/underscoresme-generator/prototype/ \
           ./ ${{env.dest}}
