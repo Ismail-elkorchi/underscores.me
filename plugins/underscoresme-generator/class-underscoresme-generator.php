@@ -199,7 +199,7 @@ class Underscoresme_Generator {
 	public function do_replacements( $contents, $filename ) {
 
 		// Replace only text files, skip png's and other stuff.
-		$valid_extensions       = array( 'php', 'css', 'scss', 'js', 'txt' );
+		$valid_extensions       = array( 'php', 'css', 'scss', 'js', 'txt', 'dist' );
 		$valid_extensions_regex = implode( '|', $valid_extensions );
 		if ( ! preg_match( "/\.({$valid_extensions_regex})$/", $filename ) ) {
 			return $contents;
@@ -256,6 +256,19 @@ class Underscoresme_Generator {
 		if ( 'readme.txt' === $filename ) {
 			$contents = preg_replace( '/(?<=Description ==) *.*?(.*(?=(== Installation)))/s', "\n\n" . $this->theme['description'] . "\n\n", $contents );
 			$contents = str_replace( '_s, or underscores', $this->theme['name'], $contents );
+		}
+
+		// Special treatment for phpcs.xml.dist.
+		if ( 'phpcs.xml.dist' == $filename ) {
+			$rule_set = <<<XML
+				<rule ref="WordPress">
+					<!-- This rule does not apply here since the _s prefix should be changed by the theme author. -->
+					<exclude name="WordPress.NamingConventions.PrefixAllGlobals.ShortPrefixPassed"/>
+				</rule>
+			XML;
+
+			$contents = str_replace( $rule_set, '	<rule ref="WordPress"/>', $contents );
+			$contents = str_replace( '"_s"', '"' . $this->theme['slug'] . '"', $contents );
 		}
 
 		// Function names can not contain hyphens.
