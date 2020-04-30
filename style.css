@@ -724,6 +724,7 @@ a:active {
 
 .site-header .site-title span.site-header-bubblewrap-inner {
 	position: absolute;
+	font-size: 1.6rem;
 	top: 46%;
 	left: 0;
 	width: 100%;
@@ -737,7 +738,7 @@ a:active {
 .site-header .site-description {
 	display: block;
 	position: absolute;
-	top: 46%;
+	top: 40%;
 	left: 50%;
 	margin-left: 130px;
 	text-align: left;
