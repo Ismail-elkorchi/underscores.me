@@ -259,13 +259,13 @@ class Underscoresme_Generator {
 		}
 
 		// Special treatment for phpcs.xml.dist.
-		if ( 'phpcs.xml.dist' == $filename ) {
+		if ( 'phpcs.xml.dist' === $filename ) {
 			$rule_set = <<<XML
 				<rule ref="WordPress">
 					<!-- This rule does not apply here since the _s prefix should be changed by the theme author. -->
 					<exclude name="WordPress.NamingConventions.PrefixAllGlobals.ShortPrefixPassed"/>
 				</rule>
-			XML;
+			XML; // phpcs:ignore
 
 			$contents = str_replace( $rule_set, '	<rule ref="WordPress"/>', $contents );
 			$contents = str_replace( '"_s"', '"' . $this->theme['slug'] . '"', $contents );
